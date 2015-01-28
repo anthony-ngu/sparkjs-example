@@ -1,0 +1,33 @@
+<div id="spark-login">
+</div>
+<div id="result">
+</div>
+<script src="//cdn.jsdelivr.net/sparkjs/0.2.4/spark.min.js"></script> <!-- The script for SparkJS -->
+<script>
+    // This gets called when a user finishes the login flow.
+    sparkLogin(function(data){
+        // Your code here
+        var result = document.getElementById("result");
+        result.innerHTML = "You are now logged in! </br> Give us a moment while we find your devices.";
+        document.getElementById("spark-login").style.visibility = 'hidden';
+        console.log(data);
+        console.log(spark);
+        
+        spark.listDevices(function(err, devices) {
+          var device = devices[0];
+
+          console.log('Device name: ' + device.name);
+          result.innerHTML = 'Device name: ' + device.name + '</br>';
+          console.log('- connected?: ' + device.connected);
+          result.innerHTML += '- connected?: ' + device.connected + '</br>';
+          console.log('- variables: ' + device.variables);
+          result.innerHTML += '- variables: ' + device.variables + '</br>';
+          console.log('- functions: ' + device.functions);
+          result.innerHTML += '- functions: ' + device.functions + '</br>';
+          console.log('- version: ' + device.version);
+          result.innerHTML += '- version: ' + device.version + '</br>';
+          console.log('- requires upgrade?: ' + device.requiresUpgrade);
+          result.innerHTML += '- requires upgrade?: ' + device.requiresUpgrade + '</br>';
+        });        
+    });
+</script>
