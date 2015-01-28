@@ -6,6 +6,8 @@ String pin4 = "D4";
 String pin5 = "D5";
 String pin6 = "D6";
 String pin7 = "D7";
+int led = -1;
+bool blinky_switch = false;
 // This routine runs only once upon reset
 void setup() {
   Spark.function("blinky", blinky);
@@ -15,12 +17,17 @@ void setup() {
 // Spark firmware interleaves background CPU activity associated with WiFi + Cloud activity with your code. 
 // Make sure none of your code delays or blocks for too long (like more than 5 seconds), or weird things can happen.
 void loop() {
-
+    if(blinky_switch)
+    {
+        digitalWrite(led, HIGH);
+        delay(1000);               // Wait for 1000mS = 1 second
+        digitalWrite(led, LOW);
+        delay(1000);               // Wait for 1 second in off mode   
+    }
 }
 
 int blinky(String command)
 {
-    int led = -1;
     if(command == pin0)
         led = D0;
     else if(command == pin1)
@@ -40,10 +47,7 @@ int blinky(String command)
     else
         return -1;
     
-    
     pinMode(led, OUTPUT);
-    digitalWrite(led, HIGH);
-    delay(1000);               // Wait for 1000mS = 1 second
-    digitalWrite(led, LOW);
-    delay(1000);               // Wait for 1 second in off mode   
+    
+    blinky_switch = !blinky_switch;
 }
